@@ -4,16 +4,17 @@
  * Companion code for the CryptoNoobs guide "What is a HASH":
  * https://cryptonoobs.tech/knowledges/what-is-a-hash
  *
- * SHA-256 is the hash function Bitcoin uses for mining and for transaction
- * and block ids. This file follows the official specification (FIPS 180-4)
+ * SHA-256 is the hash function Bitcoin uses for mining, transaction ids and
+ * the Merkle tree. This file follows the official specification (FIPS 180-4)
  * step by step, with no external libraries, so you can see every operation.
+ * merkle.c and mine.c reuse it with #include "sha256.c".
  *
- * Build:  make            (or: cc -std=c99 -O2 -Wall -Wextra -o sha256 sha256.c)
- * Use:    ./sha256 "hello"           hash a text
+ * Build:  cc -O2 -o sha256 sha256.c
+ * Use:    ./sha256 "hello"            hash a text
  *         echo -n "hello" | ./sha256  hash standard input
- *         ./sha256 -d "hello"        double SHA-256, as Bitcoin does
- *         ./sha256 -v "abc"          show the 64 rounds of each block
- *         ./sha256 -t                run the official test vectors
+ *         ./sha256 -d "hello"         double SHA-256, as Bitcoin does
+ *         ./sha256 -v "abc"           show the 64 rounds of each block
+ *         ./sha256 -t                 run the official test vectors
  *
  * Educational code: it is correct, but it is not hardened or optimized.
  * For real systems use a reviewed library (OpenSSL, libsodium, ...).
@@ -213,7 +214,7 @@ static void sha256(const uint8_t *data, size_t len, uint8_t out[32], int verbose
 }
 
 /* ------------------------------------------------------------------------ */
-/* 6) Command line                                                           */
+/* 6) Helpers and command line                                              */
 /* ------------------------------------------------------------------------ */
 
 static void to_hex(const uint8_t digest[32], char hex[65])
@@ -226,6 +227,13 @@ static void to_hex(const uint8_t digest[32], char hex[65])
     }
     hex[64] = '\0';
 }
+
+/*
+ * Everything below is the command line of this file. Programs that include
+ * sha256.c define SHA256_LIB first, so they get the functions above but not
+ * this main().
+ */
+#ifndef SHA256_LIB
 
 /* Known answers from FIPS 180-4 and NIST examples. */
 static int run_tests(void)
@@ -346,3 +354,5 @@ int main(int argc, char **argv)
     if (text == NULL) free(data);
     return 0;
 }
+
+#endif /* SHA256_LIB */
