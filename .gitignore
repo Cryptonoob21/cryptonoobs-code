@@ -1,0 +1,7 @@
+# Build output (one line per program)
+/c/sha256/sha256
+*.o
+*.out
+__pycache__/
+*.pyc
+.DS_Store
