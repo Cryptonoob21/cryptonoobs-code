@@ -22,6 +22,8 @@ Small, simple programs that show how Bitcoin works under the hood. They go with 
 | `secp256k1.py` | The secp256k1 curve: adding points and turning a private key into a public key. `keys.py` uses it. |
 | `base58.py` | Base58 and Base58Check, used for Legacy and Nested SegWit addresses and WIF keys. |
 | `bech32.py` | Bech32 and Bech32m, used for `bc1` and `tb1` addresses. |
+| `sign.py` | Signs a 32-byte hash the way Bitcoin does: ECDSA with an RFC 6979 nonce, low S and DER, then checks the signature. Uses the public test key from BIP143. |
+| `tx.py` | Builds and signs a SegWit transaction with made-up coins and the BIP143 test key, adds the change, and prints every part of its bytes, the txid, the weight and the raw hex. It can never spend real coins. |
 
 ```sh
 cc -o sha256 sha256.c && ./sha256
@@ -35,8 +37,10 @@ python3 padding.py
 python3 avalanche.py
 python3 collision.py
 python3 keys.py
+python3 sign.py
+python3 tx.py
 ```
 
-The key files are for learning with test keys only. They are not constant-time, have not been reviewed, and are not safe for real funds: never put real words in them. `keys.py` was checked against the official BIP39, BIP32, BIP49, BIP84, BIP86 and SLIP-132 test vectors, and `bech32.py` against the BIP173 and BIP350 lists.
+The key files are for learning with test keys only. They are not constant-time, have not been reviewed, and are not safe for real funds: never put real words in them. `keys.py` was checked against the official BIP39, BIP32, BIP49, BIP84, BIP86 and SLIP-132 test vectors, and `bech32.py` against the BIP173 and BIP350 lists. `sign.py` and `tx.py` have no private key setting: they only use the key printed in [BIP143](https://github.com/bitcoin/bips/blob/a7f91321f25b5be8d93e901775621c21519e80b7/bip-0143.mediawiki), which is known to everyone, and `tx.py` only spends made-up coins, so its transactions are valid in form but always rejected by the network. They were checked against the BIP143 examples.
 
 MIT license, see `LICENSE`.
