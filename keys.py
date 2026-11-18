@@ -48,10 +48,12 @@ def words_from_entropy(entropy, word_list):
 
 
 def entropy_from_words(words, word_list):
+    if len(words) not in [12, 15, 18, 21, 24]:
+        raise ValueError("Use 12, 15, 18, 21 or 24 words")
     bits = ""
     for word in words:
         if word not in word_list:
-            raise ValueError("Unknown word: " + word)
+            raise ValueError("One of the words is not in english.txt")
         bits = bits + format(word_list.index(word), "011b")
     checksum_size = len(bits) // 33
     entropy_bits = bits[: len(bits) - checksum_size]

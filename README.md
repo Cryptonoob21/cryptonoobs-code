@@ -37,6 +37,6 @@ python3 collision.py
 python3 keys.py
 ```
 
-The key files are for learning with test keys only. They are not constant-time, have not been reviewed, and are not safe for real funds: never put real words in them. `keys.py` was checked against the official BIP39 (Trezor), BIP32, BIP49, BIP84 and BIP86 vectors and the SLIP-132 vectors, and `bech32.py` against the BIP173 and BIP350 lists.
+The key files are for learning with test keys only. They are not constant-time, have not been reviewed, and are not safe for real funds: never put real words in them. `keys.py` was checked against the official BIP39, BIP32, BIP49, BIP84, BIP86 and SLIP-132 test vectors, and `bech32.py` against the BIP173 and BIP350 lists.
 
 MIT license, see `LICENSE`.
