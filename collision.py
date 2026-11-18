@@ -30,7 +30,7 @@ while True:
 
 seconds = time.time() - started
 tries = n + 1
-expected = 1.18 * 2 ** (BITS / 2)
+expected = 1.25 * 2 ** (BITS / 2)
 prefix = format(value, "0" + str(BITS) + "b")
 
 print(f"Message 1:      {other}")
@@ -39,5 +39,5 @@ print(f"SHA-256 1:      {hashlib.sha256(other.encode()).hexdigest()}")
 print(f"SHA-256 2:      {hashlib.sha256(message.encode()).hexdigest()}")
 print(f"Shared bits:    {prefix}")
 print(f"Tries:          {tries:,} ({seconds:.2f} seconds)")
-print(f"Expected tries: about {expected:,.0f}")
+print(f"Expected tries, on average: about {expected:,.0f}")
 print("For the full 256-bit hash you would need about 2 ** 128 tries, so you will almost certainly not find one.")
